@@ -6,6 +6,9 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
+/**
+ * socket 客户端2
+ */
 public class SocketClient2 {
     public static void main(String[] args) {
         try {

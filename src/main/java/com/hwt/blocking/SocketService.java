@@ -9,18 +9,35 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 服务端socket
+ */
 @Data
 public class SocketService {
 
+    /**
+     * 用于存放socket列表
+     */
     private List<Socket> sockets;
-
+    /**
+     * 用于存放服务端socket
+     */
     private ServerSocket service;
 
+    /**
+     * 服务端socket构造
+     * @param service
+     */
     private SocketService(ServerSocket service){
         this.sockets = new ArrayList<>();
         this.service = service;
     }
 
+    /**
+     * 根据端口号获取服务端socket
+     * @param port 指定监听端口号
+     * @return 返回服务端socket
+     */
     public static SocketService getAService(int port){
         try {
             ServerSocket server = new ServerSocket(port);
@@ -32,6 +49,9 @@ public class SocketService {
         }
     }
 
+    /**
+     * 获取过来链接的客户端的socket
+     */
     public void getClients(){
         new Thread(() -> {
             try {
@@ -52,6 +72,10 @@ public class SocketService {
         }).start();
     }
 
+    /**
+     * 读取客户端的数据
+     * @param client 参数为客户端socket
+     */
     public void doRead(Socket client) {
         byte[] buffer = new byte[1024*8];
         new Thread(() -> {

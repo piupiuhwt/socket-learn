@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Continue Upload</title>
+</head>
+<body>
+    <input id="theUploadFile" type="file" name="file" onchange="init()"/>
+    <progress id="progress" max="100" value="0"></progress>
+    <script type="text/javascript">
+        let chuanSize = 1024*1024;
+        function init() {
+            let file = document.getElementById("theUploadFile").files[0];
+            console.log(name);
+            let xhr = new XMLHttpRequest();
+            let fd = new FormData();
+            fd.append('fileName',file.name);
+            xhr.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    console.log(this.responseText)
+                    let start = parseInt(this.responseText);
+                    fileUpload(start)
+                }
+            }
+            xhr.open('post', "http://localhost:9005/fileSmoke", true);
+            xhr.send(fd);
+        }
+
+        function fileUpload(start) {
+            let file = document.getElementById("theUploadFile").files[0];
+            if (start >= file.size) {
+                return;
+            }
+            let end = (start + chuanSize > file.size) ? file.size : (start + chuanSize);
+            let xhr2 = new XMLHttpRequest();
+            let fd2 = new FormData();
+            fd2.append('file', file.slice(start, end));
+            fd2.append('fileName', file.name);
+            fd2.append('fileLength', file.size);
+            xhr2.open('post', "http://localhost:9005/fileUpload", true);
+            xhr2.onload = function(){
+                if(this.readyState===4&&this.status===200){
+                    let progress = document.getElementById('progress');
+                    progress.max = file.size;
+                    progress.value = end;
+                    fileUpload(end);
+                }
+            }
+            xhr2.send(fd2);
+        }
+    </script>
+</body>
+</html>
