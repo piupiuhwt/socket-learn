@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
+import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -43,6 +44,15 @@ public class MultiplexerTimeServer implements Runnable{
                 while (it.hasNext()) {
                     key = it.next();
                     it.remove();
+                    try {
+                        handleInput(key);
+                    } catch (IOException e) {
+                        key.cancel();
+                        if (key.channel()!=null) {
+                            key.channel().close();
+                        }
+                    }
+
 
                 }
             } catch (IOException e) {
@@ -69,9 +79,27 @@ public class MultiplexerTimeServer implements Runnable{
                 if (readBytes>0) {
                     readBuffer.flip();
                     byte[] bytes = new byte[readBuffer.remaining()];
-
+                    readBuffer.get(bytes);
+                    String body = new String(bytes, "UTF-8");
+                    System.out.println("the timeserver receive order : " + body);
+                    String currentTime = "QUERY TIME ORDER".equalsIgnoreCase(body) ? LocalDateTime.now().toString() : "BAD ORDER";
+                    doWrite(sc, currentTime);
+                }else if (readBytes<0){
+                    key.channel();
+                    sc.close();
                 }
             }
+        }
+    }
+
+    private void doWrite(SocketChannel channel,String response) throws IOException {
+        if (response != null && response.trim().length() > 0) {
+            System.out.println(channel+" 写入 "+response);
+            byte[] bytes = response.getBytes();
+            ByteBuffer writeBuffer = ByteBuffer.allocate(bytes.length);
+            writeBuffer.put(bytes);
+            writeBuffer.flip();
+            channel.write(writeBuffer);
         }
     }
 }

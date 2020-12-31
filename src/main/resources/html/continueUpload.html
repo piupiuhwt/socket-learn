@@ -8,7 +8,10 @@
     <input id="theUploadFile" type="file" name="file" onchange="init()"/>
     <progress id="progress" max="100" value="0"></progress>
     <script type="text/javascript">
+        //每个上传分片大小
         let chuanSize = 1024*1024;
+
+        //选择上传的图片
         function init() {
             let file = document.getElementById("theUploadFile").files[0];
             console.log(name);
@@ -22,10 +25,11 @@
                     fileUpload(start)
                 }
             }
-            xhr.open('post', "http://localhost:9005/fileSmoke", true);
+            xhr.open('post', "http://192.168.149.129:9005/fileSmoke", true);
             xhr.send(fd);
         }
 
+        //上传图片函数
         function fileUpload(start) {
             let file = document.getElementById("theUploadFile").files[0];
             if (start >= file.size) {
@@ -37,7 +41,7 @@
             fd2.append('file', file.slice(start, end));
             fd2.append('fileName', file.name);
             fd2.append('fileLength', file.size);
-            xhr2.open('post', "http://localhost:9005/fileUpload", true);
+            xhr2.open('post', "http://192.168.149.129:9005/fileUpload", true);
             xhr2.onload = function(){
                 if(this.readyState===4&&this.status===200){
                     let progress = document.getElementById('progress');

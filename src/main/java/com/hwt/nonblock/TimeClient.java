@@ -1,16 +1,17 @@
 package com.hwt.nonblock;
 
-public class TimeServer {
+public class TimeClient {
     public static void main(String[] args) {
         int port = 8080;
-//        if (args != null && args.length >= 0) {
+        String host = "127.0.0.1";
+//        if (args != null && args.length > 0) {
 //            try{
 //                port = Integer.parseInt(args[0]);
 //            }catch (Exception e){
 //                e.printStackTrace();
 //            }
-            MultiplexerTimeServer timeServer = new MultiplexerTimeServer(port);
-            new Thread(timeServer,"NIO-MultiplexerTimeServer-001").start();
+            TimeClientHandler timeClient = new TimeClientHandler(host,port);
+            new Thread(timeClient,"TimeClient-001").start();
 //        }
     }
 }
