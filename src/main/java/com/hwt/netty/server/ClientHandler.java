@@ -3,7 +3,6 @@ package com.hwt.netty.server;
 
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.rtsp.RtspResponseEncoder;
 
 import java.nio.charset.StandardCharsets;
 
@@ -14,7 +13,6 @@ public class ClientHandler extends ChannelHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         String result = handleMessage((String) msg);
         StringBuilder responseBuilder = new StringBuilder();
-        RtspResponseEncoder
         responseBuilder.append("HTTP/1.1 200 OK\r\n")
                 .append("content-type: text/html; Charset=utf-8\r\n")
                 .append("Transfer-encoding:chunked")
