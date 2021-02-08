@@ -1,4 +1,9 @@
-package com.hwt.nonblock;
+package com.hwt.nonblock.timesystem;
+
+import io.netty.handler.codec.http.DefaultFullHttpResponse;
+import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.HttpVersion;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -41,6 +46,7 @@ public class MultiplexerTimeServer implements Runnable{
                 Set<SelectionKey> selectionKeys = selector.selectedKeys();
                 Iterator<SelectionKey> it = selectionKeys.iterator();
                 SelectionKey key = null;
+
                 while (it.hasNext()) {
                     key = it.next();
                     it.remove();
@@ -52,8 +58,6 @@ public class MultiplexerTimeServer implements Runnable{
                             key.channel().close();
                         }
                     }
-
-
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -82,8 +86,18 @@ public class MultiplexerTimeServer implements Runnable{
                     readBuffer.get(bytes);
                     String body = new String(bytes, "UTF-8");
                     System.out.println("the timeserver receive order : " + body);
-                    String currentTime = "QUERY TIME ORDER".equalsIgnoreCase(body) ? LocalDateTime.now().toString() : "BAD ORDER";
-                    doWrite(sc, currentTime);
+//                    String currentTime = "QUERY TIME ORDER".equalsIgnoreCase(body) ? LocalDateTime.now().toString() : "BAD ORDER";
+
+                    String contentString = "<html><head><title>test</title></head><body><h1>测试页</h1></body></html>";
+                    int length = contentString.getBytes("UTF-8").length;
+                    StringBuilder responseBuilder = new StringBuilder();
+                    responseBuilder.append("HTTP/1.1 200 OK\r\n")
+                            .append("content-type: text/html; Charset=utf-8\n")
+                            .append("cache-control: private,no-cache\n")
+                            .append("content-length: " + length + "\n")
+                            .append("\n")
+                            .append(contentString);
+                    doWrite(sc, responseBuilder.toString());
                 }else if (readBytes<0){
                     key.channel();
                     sc.close();

@@ -1,12 +1,10 @@
-package com.hwt.nonblock;
+package com.hwt.nonblock.timesystem;
 
-import com.sun.xml.internal.bind.marshaller.NioEscapeHandler;
 import lombok.Data;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -58,6 +56,7 @@ public class SocketChannelService {
                 byteBuffer.mark();
 //                message = decode(byteBuffer);
                 message = byteBuffer.array();
+                System.out.println(new String((byte[])message));
                 if (message == null) {
                     byteBuffer.reset();
                     break;
