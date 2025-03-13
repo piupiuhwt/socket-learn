@@ -8,8 +8,8 @@ import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.hwt.netty.innerserver.GlobalContext.channelMap;
-import static com.hwt.netty.innerserver.GlobalContext.messageQueue;
+import static com.hwt.netty.server.innerserver.GlobalContext.channelMap;
+import static com.hwt.netty.server.innerserver.GlobalContext.messageQueue;
 
 public class ForwardServerHandler extends ChannelHandlerAdapter {
 

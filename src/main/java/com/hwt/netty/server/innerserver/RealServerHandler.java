@@ -1,20 +1,18 @@
-package com.hwt.netty.innerserver;
+package com.hwt.netty.server.innerserver;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.hwt.netty.innerserver.GlobalContext.messageQueue;
+import static com.hwt.netty.server.innerserver.GlobalContext.messageQueue;
 
 
 public class RealServerHandler extends ChannelHandlerAdapter {

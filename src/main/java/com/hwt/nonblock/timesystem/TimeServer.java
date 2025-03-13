@@ -1,7 +1,9 @@
 package com.hwt.nonblock.timesystem;
 
+import java.io.IOException;
+
 public class TimeServer {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         int port = 8080;
 //        if (args != null && args.length >= 0) {
 //            try{

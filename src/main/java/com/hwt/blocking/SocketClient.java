@@ -15,22 +15,30 @@ public class SocketClient {
 
             client.setKeepAlive(true);
             client.setSoTimeout(10000);
-            new Thread(() -> {
+            // 设置
+            client.setSoLinger(true, 0);
+            Thread sendUrgTread = new Thread(() -> {
                 while (true){
                     try {
                         Thread.sleep(1000);
+                        // 发送紧急数据
                         client.sendUrgentData(0xFF);
                     } catch (InterruptedException | IOException e) {
                         e.printStackTrace();
                     }
                 }
-            }).start();
+            });
+            sendUrgTread.start();
 
 
             OutputStream outputStream = client.getOutputStream();
             Scanner scanner = new Scanner(System.in);
             while(true){
                 String s = scanner.nextLine();
+                if ("quit".equals(s)) {
+                    client.close();
+                    break;
+                }
                 outputStream.write(s.getBytes());
             }
         } catch (IOException e) {

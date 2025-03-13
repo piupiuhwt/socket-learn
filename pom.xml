@@ -43,6 +43,13 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.30</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.4</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -57,7 +64,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.hwt.netty.innerserver.Main</mainClass>
+                            <mainClass>com.hwt.netty.server.innerserver.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

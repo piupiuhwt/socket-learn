@@ -57,6 +57,8 @@ public class SocketService {
             try {
                 while(true){
                     Socket client = this.service.accept();
+                    // 设置带外数据是否开启接收 默认不接
+                    client.setOOBInline(true);
                     boolean add = this.sockets.add(client);
                     if (add) {
                         System.out.println(client.getInetAddress().toString() + client.getPort() + "添加成功");

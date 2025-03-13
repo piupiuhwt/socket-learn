@@ -1,4 +1,4 @@
-package com.hwt.netty.innerserver;
+package com.hwt.netty.server.innerserver;
 
 
 import io.netty.buffer.ByteBuf;

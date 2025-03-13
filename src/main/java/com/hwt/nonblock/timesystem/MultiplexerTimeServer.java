@@ -99,7 +99,7 @@ public class MultiplexerTimeServer implements Runnable{
                             .append(contentString);
                     doWrite(sc, responseBuilder.toString());
                 }else if (readBytes<0){
-                    key.channel();
+                    key.cancel();
                     sc.close();
                 }
             }

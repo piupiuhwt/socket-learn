@@ -1,6 +1,6 @@
 package com.hwt.netty.server;
 
-import com.hwt.netty.innerserver.NettyEncoder;
+import com.hwt.netty.server.innerserver.NettyEncoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
